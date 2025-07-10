@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPTIMIZACIÓN EN LA NUBE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="/logo_inacap.png" alt="" class="logo_inacap">
+                <span>ABPro 2025</span>
+            </div>
+            <h1>OPTIMIZACIÓN EN LA NUBE</h1>
+            <p class="subtitle">Herramienta para calcular costos energéticos y optimizar el consumo de tu servidor local mediante análisis de derivadas, variables y tasas de cambio</p>
+        </header>
+        
+        <div class="content">
+            <div class="form-section fade-in">
+                <h2><i class="fas fa-server"></i> Configuración del Sistema</h2>
+                
+                <div class="form-group">
+                    <label for="consumo">
+                        Consumo total del sistema (Watts)
+                        <span class="tooltip">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-text">Puedes medir el consumo exacto con un wattímetro profesional o usar herramientas que hagan un calculo del consumo de cada una de tus piezas para tener un estimado.</span>
+                        </span>
+                    </label>
+                    <div class="input-group">
+                        <i class="fas fa-plug"></i>
+                        <input type="number" id="consumo" min="50" max="2000" step="1" value="350" placeholder="Ej: 350">
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="consumo-slider" min="50" max="2000" value="350" step="10">
+                        <div class="slider-labels">
+                            <span>50W (Bajo)</span>
+                            <span>2000W (Alto)</span>
+                        </div>
+                    </div>
+                    <span class="input-hint">Puedes medir el consumo de cada una de tus piezas en: <a href="https://latam.msi.com/power-supply-calculator" target="_blank">Calculadora MSI</a></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kwh">
+                        Precio del kWh (CLP)
+                        <span class="tooltip">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-text">El precio promedio en Chile es de $140 CLP/kWh, pero varía por región y proveedor. Consulta tu última boleta de luz para obtener el valor exacto.</span>
+                        </span>
+                    </label>
+                    <div class="input-group">
+                        <i class="fas fa-bolt"></i>
+                        <input type="number" id="kwh" min="50" max="500" step="1" value="140" placeholder="Ej: 140">
+                    </div>
+                    <span class="input-hint">Puedes encontrar esta información en tu boleta de luz bajo "Costo por kWh" o consultando en esta pagina: <a href="https://cuentadelaluz.cl/" target="_blank">cuentadelaluz.cl</a></span>
+                </div>
+            </div>
+            
+            <div class="form-section fade-in" style="animation-delay: 0.1s;">
+                <h2><i class="fas fa-clock"></i> Patrón de Uso</h2>
+                
+                <div class="form-group">
+                    <label>Modo de funcionamiento:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="continuo" name="modo" value="continuo" checked>
+                            <i class="fas fa-sync-alt radio-icon"></i>
+                            <span class="radio-label">24/7 Continuo</span>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="personalizado" name="modo" value="personalizado">
+                            <i class="fas fa-calendar-alt radio-icon"></i>
+                            <span class="radio-label">Horario personalizado</span>
+                        </div>
+                    </div>
+                    <span class="input-hint">Selecciona "24/7 Continuo" para equipos que operan todo el día o "Horario personalizado" para equipos con uso intermitente.</span>
+                </div>
+                
+                <div class="form-group" id="horasGroup" style="display: none;">
+                    <label for="horas">
+                        Horas de funcionamiento por día
+                        <span class="tooltip">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-text">Ingresa el promedio de horas diarias que tu sistema está en operación. Considera incluir horas pico y tiempos de inactividad para un cálculo más preciso.</span>
+                        </span>
+                    </label>
+                    <div class="input-group">
+                        <i class="fas fa-hourglass-half"></i>
+                        <input type="number" id="horas" min="1" max="24" step="0.5" value="8" placeholder="Ej: 8.5">
+                    </div>
+                    <span class="input-hint">Para mayor precisión, puedes ingresar valores decimales (ej: 8.5 para 8 horas y media).</span>
+                </div>
+            </div>
+            
+            <div class="form-section fade-in" style="animation-delay: 0.2s;">
+                <h2><i class="fas fa-calendar"></i> Período de Análisis</h2>
+                
+                <div class="form-group">
+                    <label for="dias">
+                        Período de tiempo
+                        <span class="tooltip">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-text">Selecciona el período de tiempo para el análisis de costos. El cálculo anual es útil para presupuestos y planificación financiera.</span>
+                        </span>
+                    </label>
+                    <div class="input-group">
+                        <i class="fas fa-calendar-day"></i>
+                        <select id="dias">
+                            <option value="1">1 día (Análisis diario)</option>
+                            <option value="7">1 semana (Análisis semanal)</option>
+                            <option value="30" selected>1 mes (Análisis mensual)</option>
+                            <option value="90">3 meses (Análisis trimestral)</option>
+                            <option value="180">6 meses (Análisis semestral)</option>
+                            <option value="365">1 año (Análisis anual)</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            
+            <button class="calculate-btn" onclick="calcular()" id="calculateBtn">
+                <i class="fas fa-calculator"></i>
+                Calcular y Analizar
+            </button>
+            
+            <div class="results" id="results">
+                <div class="results-header">
+                    <h3><i class="fas fa-chart-pie"></i> Resultados del Análisis Energético</h3>
+                    <button class="reset-btn" onclick="resetCalculator()">
+                        <i class="fas fa-redo"></i>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="changeTab('basic')">Resumen</div>
+                    <div class="tab" onclick="changeTab('derivatives')">Análisis de Variables</div>
+                    <div class="tab" onclick="changeTab('optimization')">Optimización</div>
+                    <div class="tab" onclick="changeTab('advanced')">Avanzado</div>
+                </div>
+                
+                <div id="basic" class="tab-content active">
+                    <div id="resultados-contenido"></div>
+                </div>
+                
+                <div id="derivatives" class="tab-content">
+                    <div id="derivatives-content"></div>
+                </div>
+                
+                <div id="optimization" class="tab-content">
+                    <div id="optimization-content"></div>
+                </div>
+                
+                <div id="advanced" class="tab-content">
+                    <div id="advanced-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
